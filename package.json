@@ -1,0 +1,21 @@
+{
+    "scripts": {
+        "commit": "git add . && cz-customizable",
+        "prepare": "husky install",
+        "changelog": "conventional-changelog -p gitmoji-config -i CHANGELOG.md -s"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.2.0",
+        "commitlint-config-cz": "^0.13.3",
+        "commitlint-config-git-commit-emoji": "^1.0.0",
+        "conventional-changelog-cli": "^2.2.2",
+        "conventional-changelog-gitmoji-config": "^1.4.4",
+        "cz-customizable": "^7.0.0",
+        "husky": "^8.0.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "node_modules/cz-customizable"
+        }
+    }
+}

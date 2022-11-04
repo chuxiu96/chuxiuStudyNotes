@@ -449,3 +449,22 @@ $ git stash pop
   - 存储到本地栈顶以后，你可以使用git stash list 查看你本地存储的stash日志
 - **git stash clear** 
   - 清空Git栈，原来stash的节点都会被清除
+
+
+
+### 3 - 回退版本
+
+```bash
+# 回退到上个版本
+$ git reset --hard HEAD^
+# 回退到前3此提交之前
+$ git reset --hard HEAD~3
+```
+
+```bash
+# 查看commit的sha码
+$ git log
+# 退到/进到 制定commit sha码的版本
+$ git reset --hard dde8c25694f34acf8971f0782b1a676f39bf0a46 
+```
+
