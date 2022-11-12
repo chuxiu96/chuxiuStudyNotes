@@ -341,6 +341,35 @@ $ touch <fileName>
 
 ## 第N章、git 使用场景
 
+### 0 - 基于当前分支创建新分支
+
+```bash
+# 基于远程分支创建本地新分支，并切换到新分支
+$ git checkout -b Newbranch origin/RemoteBranch
+# 需要先把分支推送到远程，不然提交记录会提交到基于远程的那个分支上
+$ git push --set-upstream origin Newbranch
+# 推送提交代码
+```
+
+
+
+### 0 - 删除分支
+
+场景：在 `waitdel` 分支，想删除 `waitdel` 分支
+
+```bash
+# 切换到别的分支
+$ git checkout otherbranch
+# 删除目标分支
+$ git branch -d waitdel
+# options 强制删除
+$ git branch -D waitdel
+# 删除对应的远程分支
+$ git push origin --delete waitdel
+```
+
+
+
 ### 1 - git clone 远程仓库指定分支
 
 git clone不指定分支时，默认会把远程仓库整个给clone下来，但只会在本地默认创建一个master分支
