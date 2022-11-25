@@ -151,4 +151,47 @@ C 是编译型语言，需要被编译才能运行，因此，需要
   - 免费
   - 安装简单
   - 不用建工程
-- **Visual Studio**
+- **Visual Studio** 
+
+- **Xcode** (Mac OS X)
+- Eclispse-CDT
+- Geany + MinGW
+  - *Minimalist GNU for Windows*
+- Sublime+ MinGW
+- vim/emacs + MinGW
+
+
+
+### 7 - 第一个 C 程序
+
+```c
+#include <stdio.h>
+
+int main()
+{
+	/* 我的第一个 C 程序 */
+	printf("Hello world! \n");
+	
+	return 0;
+}
+```
+
+
+
+# 第二章、
+
+### 变量
+
+
+
+### 常量
+
+**magic number**
+
+- 出现在程序中莫名其妙的数字
+
+
+
+### 函数
+
+printf、scanf中的"f"，是"formatted"
