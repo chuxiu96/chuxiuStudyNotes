@@ -1,6 +1,4 @@
-# JavaScript权威指南Learning Notes
-
-## 一、JavaScript概述
+# 第一章、JavaScript概述
 
 ### 1 - JavaScript 基本介绍
 
@@ -30,7 +28,7 @@
 - JavaScript子集和超集
 - 服务端JavaScript
 
-## 二、词法结构
+# 第二章、词法结构
 
 编程语言的词法结构是一套基础性规则，用以描述如何编写程序。
 
@@ -222,14 +220,14 @@ nums.forEach(bar)
 
 
 
-## 三、类型、值和变量
+# 第三章、类型、值和变量
 
 编程语言中，能够表示并操作的 <span style="color: #e3371e">值的类型</span> 称作 <span style="color: #e3371e">数据类型（type）</span> 
 
 - 编程语言最基本的特性就是能够支持多种数据类型。
 - 另一个基本特性是变量的工作机制。变量（variavle）是一个值的符号名称，通过名称即可获得对值的引用
 
-##### JavaScript 的数据类型分类
+## JavaScript 的数据类型分类
 
 - 原始类型（primitive type）
 
@@ -247,7 +245,7 @@ nums.forEach(bar)
     - 函数
         - 具有与它相关联的可执行代码的对象，通过调用函数运行可执行代码，并返回运算结果
 
-##### 类
+## 类
 
 - 构造函数：用来初始化（使用 new 运算符）一个新建的对象的函数
 - 每个构造函数定义了一类对象——由构造函数初始化的对象的集合
@@ -259,17 +257,17 @@ nums.forEach(bar)
         - 正则表达式类    - `表示正则表达式的对象`
         - 错误类    - `表示 JavaScript 程序运行时错误和语法错误的对象`
 
-##### JavaScript 的垃圾回收
+## JavaScript 的垃圾回收
 
 JavaScript 解释器由自己的内存管理机制，可自动对内存进行垃圾回收（garbage collection）。当不再有任何引用指向一个对象，解释器就知道这个对象没用，然后自动回收它所占用的内存资源。
 
-##### 方法
+## 方法
 
 - 技术上，只有 JavaScript 对象才能拥有方法
 - 实际上，数字，字符串和布尔值也有自己的方法
 - 只有 null 和 undefined 无法拥有方法
 
-##### JavaScript 变量
+## JavaScript 变量
 
 - JavaScript  <span style="color: #e3371e">变量</span> 是 <span style="color: #e3371e">无类型</span> 的（untyped）
 - 变量可被赋予任何类型的值，也可重新赋予不同类型的值
@@ -1538,3 +1536,236 @@ true + true		// => 2：布尔值转化为数字后做加法
 
 
 # 第五章、语句
+
+语句（statement）就是 JavaScript 整句或命令，以分号结束。
+
+表达式计算出一个值，但语句用来执行以“使某件事发生”。
+
+
+
+“使某件事发生”的方法
+
+- 计算带有副作用的表达式
+- 改变语句的默认执行顺序
+
+
+
+## 1 - 表达式语句
+
+具有副作用的表达式是 JavaScript 中最简单的语句
+
+
+
+这类语句有：
+
+- 赋值语句
+
+  ```js
+  greeting = `hello` + name;
+  i *= 3;
+  ```
+
+- 递增运算符和递减运算符
+
+  ```js
+  counter++;
+  ```
+
+- delete运算符
+
+  - 重要作用是删除一个对象的属性，一般作为语句使用，而不是复杂表达式的一部分
+
+  ```js
+  delete o.x;
+  ```
+
+- 函数调用
+
+  ```js
+  alert(greeting);
+  ```
+
+  
+
+
+
+## 2 - 复合语句和空语句
+
+### 2.1 - 复合语句
+
+ JavaScript 中，使用 <span style="color: #49bf51">花括号</span> 将多条语句联合在一起，形成一条 <span style="color: #e3371e; font-weight: 600">复合语句</span> 
+
+```js
+{
+	x = Math.Pi;
+    cx = Math.cos(x);
+    console.log(`cos(π) =${cx}`)
+}
+```
+
+
+
+**关于语句块的注意点**：
+
+- 语句块的 <span style="color: #0099dd">结尾不需要分号</span> ，语句块中的原始语句必须以分号结尾
+- 语句块中的行都有 <span style="color: #0099dd">缩进</span> ，可以增强代码的可读性，但 <span style="color: #0099dd">非必需</span> 
+- 语句块中声明的变量 <span style="color: #0099dd">不</span> 是语句块 <span style="color: #0099dd">私有</span> 的
+- 形式上来说， JavaScript 语法 <span style="color: #e3371e">允许一</span> 个语句块中只包含一个子语句
+
+
+
+### 2.2 - 空语句
+
+ <span style="color: #e3371e; font-weight: 600">空语句</span> （empty statement）恰与复合语句相反，它允许包含 <span style="color: #e3371e">0</span> 条语句的语句
+
+```js
+;
+```
+
+
+
+JavaScript 解释器执行空语句时，不会执行任何动作。
+
+但实践证明，创建一个具有空循环体的循环时，空语句是很有用的。
+
+例如：
+
+```js
+// 初始化一个数组
+for(i = 0; i < a.length; a[i++ = 0]);
+/*
+*	在此循环中，所有的操作都在表达式 a[i++] = 0 中完成，并不需要任何循环体；
+*	然而， JavaScript 需要循环体中至少包含一条语句；
+*	因此，这里只是用了一个单独的分号来表示一条空语句
+*/
+```
+
+
+
+> TIPs：
+>
+> ​	注意，在 for 循环、while 循环或 if 语句的右括号后的分号很不起眼，而这，很可能造成一些难以定位的致命 bug。
+>
+> ​	如果有特殊目的需要使用空语句，最好在代码中添加注释
+
+```js
+if ((a == 0) || (b == 0));	//	terrible！这一行代码什么都没做
+o = null;					//	这一行代码却总是会执行
+```
+
+```js
+// 更清楚地说明空语句是有用的
+for(i = 0; i < a.length; a[i++ = 0]);	/* empty */
+```
+
+
+
+## 3 - 声明语句
+
+var 和 function 都是声明语句，用以声明或定义变量和函数。
+
+声明语句本身什么都不做，但它通过创建变量和函数，可以 <span style="color: #e3371e; font-weight: 600">更好地组织代码的语义</span> 
+
+
+
+### 3.1 - var
+
+var 语句用以声明一个或多个变量：
+
+```js
+var name_1 [= value_1][,...,name_n [= value_n]]
+```
+
+
+
+如果var语句出现在 <span style="color: #49bf51">函数体内</span> ，它定义的是一个 <span style="color: #0099dd">局部变量</span> ，其作用域就是这个函数
+
+如果var语句出现在 <span style="color: #49bf51">顶层代码中</span> ，它定义的是一个 <span style="color: #0099dd">全局变量</span> ，在 JavaScript 程序中都是可见的
+
+全局变量是全局对象的属性。然而，和其他全局对象属性不同的是， <span style="color: #ab04d9">var声明的变量</span> <span style="color: #e3371e">无法通过delete删除</span> 
+
+
+
+var语句声明变量时为初始化表达式，则变量的值初始为`undefined`。
+
+- “变量提升”，但初始化的操作则还在原来 var 语句的位置执行，而声明语句之前变量的值是 undefined
+- 在循环内声明的变量也会“提升”
+
+
+
+### 3.2 - function
+
+关键字function用来定义函数：
+
+```js
+function funcName([arg1 [, arg2 [..., argn]]]) {
+	// statements
+}
+```
+
+
+
+**函数语句**
+
+- 函数体由 JavaScript 语句组成，语句数量不限，且用花括号括起来
+- 定义函数时，并不执行函数体内的语句，它和调用函数时待执行的新函数对象相关联
+- function 语句里的 <span style="color: #e3371e">花括号是必需的</span> ，即使函数体仅包含一条语句
+
+
+
+**函数定义表达式和函数语句**
+
+```js
+// [函数定义表达式] 将函数定义表达式赋值给一个变量
+var f = function(x) { return x + 1; }
+// [函数语句] 含有变量名的语句
+function f(x) { return x + 1; }
+```
+
+尽管函数声明语句和函数定义表达式包含相同的函数名，但二者仍然不同。
+
+两种方式都创建了新的函数对象，但函数声明语句中的函数名是一个变量名，变量指向函数对象。
+
+
+
+和通过var声明变量一样，函数定义语句中的函数被显式地“提前”到了脚本或函数的顶部，在整个脚本和函数内都是可见的
+
+- 使用var
+  - 变量声明提前，但变量初始化代码仍在原来的位置
+- 函数声明语句
+  -  <span style="color: #49bf51">函数名称和函数体均提前</span> 
+  - 脚本中的所有函数和函数中所有套的函数都会在当前上下文中其他代码之前声明
+  - 因此，可以在声明一个JavaScript函数之前调用它
+
+
+和var语句一样，函数声明语句创建的变量也是无法删除的。但是这些变量不是只读的，变量值可以重写。
+
+
+
+**函数声明语句的位置：**
+
+- 通常出现在 JavaScript 代码的最顶层
+- 也可 <span style="color: #e3371e">嵌套</span> 在其他函数体内
+  -  <span style="color: #0099dd">只能出现</span> 在被嵌套函数的 <span style="color: #0099dd">顶部</span> 	<!-- 因此，ECMAScript 未将函数归类为真正的语句 -->
+    - 函数定义不能出现在if语句、while循环或其他任何语句中
+  - 一些 JavaScript 实现的确允许，但内部实现细节不同，不具备可移植性
+
+
+
+## 4 - 条件语句
+
+
+
+## 5 - 循环
+
+
+
+## 6 - 跳转
+
+
+
+## 7 - 其他语句类型
+
+
+
+## 8 - JavaScript语句小结
