@@ -159,6 +159,168 @@ code --disable-extensions .
 
 
 
+# 第四章、使用指南
+
+## 6 - 调试 | Debugging
+
+### 6.1 - 调试扩展
+
+VS Code 为 Node.js runtime提供了内置的调试支持，可以调试 JavaScript、 TypeScript 或任何其他传输到 JavaScript 的语言
+
+
+
+对于调试其他语言和runtime，可以在扩展市场寻找对应的扩展
+
+
+
+### 6.2 - 开始调试
+
+选择 <span style="color: #e3371e">运行和调试</span> 活动栏图标，打开**运行和调试**视图（shortcut：`Ctrl+Shift+D`）
+
+“运行和调试”视图显示与运行和调试相关的所有信息，并有一个带有调试命令和配置设置的顶部栏
+
+
+
+### 6.3 - 运行菜单
+
+顶部 Run 菜单包含最常见的运行和调试命令
+
+
+
+### 6.4 - 启动配置
+
+对于大多数调试方案，最好创建一个启动配置文件，因为它允许您配置和保存调试安装详细信息
+
+VS Code 将调试信息保存在 `launch.json` 文件中，位于根目录的 `.vscode` 文件夹中
+
+
+
+#### # 创建 launch.json 文件
+
+单击 Run start 视图中的 create a launch.json file 以创建 launch.json 文件
+
+VS 代码将尝试自动检测您的调试环境，如果失败，可以手动配置
+
+> 请注意，启动配置中可用的属性因调试器而异
+>
+> - 可以使用 IntelliSense 建议(Ctrl + Space)查找特定调试器存在哪些属性，悬停帮助也可用于所有属性
+> - 出现绿色曲线的地方，悬停了解问题，确保在启动调试前修复
+> - 检查所有自动生成的值，并确保它们对项目和调试环境有意义
+
+
+
+##### 启动与附加配置
+
+在 VS 代码中，有两种核心调试模式：**Launch** 和 **Attach**，用以处理两种不同的工作流
+
+
+
+**基于浏览器开发工具背景**
+
+您可能不习惯“从工具启动”，因为您的浏览器实例已经打开。打开 DevTools 时，只需将 DevTools 附加到打开的浏览器选项卡。
+
+
+
+**基于服务器或桌面背景**
+
+让编辑器为您启动进程是很正常的，编辑器会自动将其调试器附加到新启动的进程
+
+
+
+VS Code 调试器通常支持
+
+- 在调试模式下启动程序
+- 在调试模式下附加到已经运行的程序
+
+
+
+##### 添加新配置
+
+**向现有 launch.json 添加新配置**
+
+- 如果光标位于配置数组中，则使用 <span style="color: #e3371e">IntelliSense</span> 
+- 按 <span style="color: #e3371e">添加配置</span> 按钮在数组开始处，调用代码段 IntelliSense
+- 在“运行”菜单中选择“添加配置”选项。
+
+VS 代码还支持同时启动多个配置的[复合启动配置](https://code.visualstudio.com/docs/editor/debugging#_compound-launch-configurations)
+
+
+
+### 6.5 - 调试操作
+
+一旦调试会话启动，“调试”工具栏将出现在编辑器的顶部
+
+|           操作            |                             说明                             |
+| :-----------------------: | :----------------------------------------------------------: |
+|     继续/暂停（`F5`）     | **继续**：恢复正常的程序/脚本执行(直到下一个断点)<br />**暂停**：检查在当前行执行的代码并逐行调试 |
+|     单步跳过（`F10`）     |     作为单个命令执行下一个方法，而不检查或遵循其组件步骤     |
+|     单步执行（`F11`）     |                输入下一个方法以逐行跟踪其执行                |
+| 单步停止（`Shift + F11`） | 在方法或子例程内部时，通过完成当前方法的剩余行来返回到早期的执行上下文，就像它是一个单独的命令一样 |
+|   重启(`Ctrl+Shift+F5`)   |        终止当前程序执行并使用当前运行配置重新开始调试        |
+|    停止（`Shift+F5`）     |                      终止当前程序的执行                      |
+
+
+
+#### # 运行模式
+
+
+
+
+
+### 6.6 - 断点
+
+可以通过单击编辑器边距或在当前行上使用 F9来切换 <span style="color: #e3371e">breakpoints</span> ，更详细的断点控制在“运行和调试视图”中
+
+- 编辑器边距中的断点通常显示为红色填充圆圈
+- 禁用的断点有一个填充的灰色圆圈
+- 当一个调试会话开始，无法在调试器中注册的断点更改为灰色空心圆
+  - 如果在没有实时编辑支持的调试会话运行时编辑源代码，也可能发生同样的情况
+
+
+
+如果调试器支持对不同类型的错误或异常进行中断，那么这些错误或异常也可以在 BREAKPOINTS 视图中使用
+
+
+
+### 6.7 - 日志点
+
+ <span style="color: #e3371e">Logpoint</span> 是断点的变体，它不会“中断”到调试器中，而是将消息记录到控制台
+
+- Logpoint 由“菱形”形状的图标表示
+- 日志消息是纯文本，但可以包括要在大括号(“{}”)中计算的表达式
+
+
+
+日志点对于注入日志记录特别有用，特别是调试不能暂停或停止的生产服务器
+
+
+
+与常规断点一样，日志点可以启用或禁用，也可以通过条件和/或命中计数来控制
+
+
+
+> NOTE
+>
+> VS Code 的内置 Node.js 调试器支持日志点，但可以通过其他调试扩展实现
+
+
+
+### 6.8 - 数据检查
+
+在“运行和调试视图”中的“变量”部分，或者，在编辑器中对应的变量上悬停，可以检查变量。
+
+变量值和表达式计算与 CALL STACK 部分中选定的堆栈帧相关。
+
+
+
+可以使用变量上下文菜单中的 Set Value 操作修改变量值，另外，可以复制变量的值，或复制表达式以访问变量
+
+变量和表达式也可以在“运行和调试视图”的“监视”部分中进行计算和监视
+
+当焦点位于“变量”部分时，可以通过键入变量名称和值进行筛选
+
+
+
 # 第五章、源代码控制 | Source Control
 
 ## 1 - 概述 | Overview
@@ -249,6 +411,200 @@ VS Code具有集成<span title="source control management">源代码管理</span
   - 只需提供新分支的名称，VS Code 将创建分支并切换到它
 - Create new branch from...
   - 将得到一个额外的提示符，允许指定新分支应该指向哪个提交
+
+
+
+### 1.5 - 远程 | Remotes
+
+假设您的存储库连接到某个远程，并且您的签出分支具有到该远程中某个分支的上游链接
+
+- VS Code 提供 **push**、**pull** 和 **sync** 该分支的有用操作
+- 可以在“视图和更多操作...”菜单中找到这些操作，以及添加或删除远程的选项
+
+
+
+VS 代码能够定期从远程获取更改
+
+- 这使 VS Code 能够显示本地存储库在远程之前或之后进行了多少更改。
+- 默认情况下，这个特性是禁用的，您可以使用 `git.autoget` 设置来启用它
+
+
+
+### 1.6 - Git状态栏操作 | Git Status Bar Actions
+
+状态栏中有一个 <span style="color: #e3371e; font-weight: 600">同步更改</span> 操作，在分支指示器旁边
+
+-  <span style="color: #e3371e; font-weight: 600">同步更改</span> 操作，将把远程更改下拉到本地存储库，然后将本地提交推送到上游分支。
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/overview/git-status-bar-sync.png)
+
+- 如果没有配置和上游分支
+
+  -  <span style="color: #e3371e; font-weight: 600">同步更改</span> 操作，将启用发布操作，允许您将当前分支发布到远程
+
+  ![](https://code.visualstudio.com/assets/docs/sourcecontrol/overview/git-status-bar-publish.png)
+
+
+
+### 1.7 - 排水沟指示器 | Gutter indictors
+
+如果您打开一个 Git 存储库文件夹并开始进行更改，VS Code 将向 Gutter 和 overview ruler 添加有用的注释。
+
+- 红色三角形表示线已被删除的位置
+- 绿色条表示新添加的行
+- 蓝色条表示修改后的行
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/overview/gutter.png)
+
+
+
+### 1.8 - 合并冲突 | Merge Conflicts
+
+合并冲突会被 VS 代码识别。
+
+- 将突出显示差异，并且有内联操作可以接受一个或两个更改
+- 一旦冲突得到解决，就将冲突文件分阶段处理，以便您可以提交这些更改
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/overview/merge-conflict.png)
+
+
+
+### 1.9 - 查看差异 | Viewing Diffs
+
+Git 工具支持在 VS 代码中查看差异
+
+- 首先右键单击资源管理器或 OPEN 编辑器列表中的一个文件
+- 选择 Select for Compare
+- 然后右键单击第二个文件进行比较
+- 并选择 Compare with‘ file _ name _ You _ options’
+
+或者
+
+- 从键盘上按下 Ctrl + Shift + P 
+- 并选择 File: Compare Active File With，您将看到最近的文件列表
+
+
+
+### 1.10 - Diff editor review pane
+
+Diff 编辑器中有一个审查窗格，它以统一的补丁格式显示更改。
+
+- 可以使用“转到下一个差异”(F7)和“转到上一个差异”(Shift + F7)在更改之间导航
+- 可以使用箭头键导航行，按下 Enter 将在 Diff 编辑器和选定行中跳回
+
+
+
+### 1.11  - 时间线 | Timeline view
+
+资源管理器底部访问的时间线是一个统一视图，用于可视化文件的时间序列事件(例如，Git 提交)
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/overview/timeline-view.png)
+
+
+
+VS Code 的内置 Git 支持提供指定文件的 Git 提交历史记录
+
+- 选择一个提交将打开该提交引入的更改的差异视图
+- 当右键单击提交时，您将获得“复制提交 ID”和“复制提交消息”选项。
+
+> TIPs：
+>
+> 在扩展市场中，有许多其他的 Git历史工作流 插件
+
+
+
+### 1.12 - Git 输出窗口 | Git Output Window
+
+您总是可以从hood下面看到我们正在使用的 Git 命令。如果有什么奇怪的事情发生或者你只是好奇，这是有帮助的
+
+
+
+要打开 Git 输出窗口，运行 View > Output 并从下拉列表中选择 Log (Git)
+
+
+
+### 1.13 - 初始化存储库 | Initialize a repository
+
+当 VS Code 未检测到现有的 Git 存储库时，源代码管理视图将为您提供初始化存储库或发布到 GitHub 的选项。
+
+
+
+## 2 - 在 VS Code 中使用 GitHub
+
+在 VS Code 中，丰富的 GitHub 集成是由 GitHub 的  `GitHub Pull Requests and Issues` 扩展提供的。
+
+
+
+**要在 VS Code 中开始使用 GitHub**
+
+- 需要安装 Git
+- 创建一个 GitHub 帐户
+- 安装 GitHub Pull Request and Affairs 扩展
+
+
+
+### 2.1 - 开始使用
+
+- 安装  `GitHub Pull Requests and Issues` 扩展
+- 登录验证
+
+
+
+### 2.2 - 建立存储库
+
+#### # 克隆存储库
+
+- 使用 Command Palette (Ctrl + Shift + P)中的 Git: Clone 命令从 GitHub 中搜索并克隆一个存储库
+
+- <span style="color: #49bf51">或者</span> 通过使用“源代码管理”视图中的“克隆存储库”按钮(在没有打开文件夹时可用)
+
+
+
+#### # 使用现有存储库进行身份验证
+
+
+
+### 2.3 - 编辑器集成
+
+#### # 悬浮
+
+打开一个存储库，并且@了一个用户，那么可以将鼠标悬停在该用户名上，然后看到一个 GitHub 风格的鼠标悬停
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/github/user-hover.png)
+
+
+
+对于 # 提到的问题编号、完整的 GitHub 问题 URL 和存储库指定的问题，也能看到一样的悬浮信息
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/github/issue-hover.png)
+
+
+
+#### # 建议
+
+用户建议由“@”字符触发，问题建议由“ #”字符触发
+
+建议可在编辑器和“源代码管理”视图的输入框中找到
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/github/user-issue-suggest.gif)
+
+
+
+### 2.4 - 拉取请求
+
+从拉取请求视图，您可以查看、管理和创建拉请求
+
+![](https://code.visualstudio.com/assets/docs/sourcecontrol/github/pull-request-view.png)
+
+
+
+#### # 创建拉取请求
+
+
+
+#### # 审阅
+
+
 
 
 
