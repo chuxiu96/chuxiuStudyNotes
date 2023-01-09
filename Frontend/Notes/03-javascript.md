@@ -270,3 +270,307 @@ function () {
 })()
 ```
 
+
+
+
+
+
+
+# 第N章 - 表达式和运算符
+
+
+
+## 1 - new 运算符 [ new ]
+
+#### # reference
+
+- [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new#%E6%8F%8F%E8%BF%B0)
+- [现代 JavaScript 教程](https://zh.javascript.info/constructor-new)
+- [new 的实现原理](https://www.bilibili.com/video/BV1me4y1k7cK/?spm_id_from=333.880.my_history.page.click&vd_source=89e7c7520dcc682cb1b72284674fbbf4)
+
+
+
+#### # 语法
+
+```js
+new constructor[([arguments])]
+
+/**
+*	constructor	一个指定对象实例的类型的类或函数
+*	arguments	一个用于被 constructor 调用的参数列表
+*/
+```
+
+
+
+#### # 描述
+
+**`new`** 关键字会进行如下的操作：
+
+- 创建一个空的简单 JavaScript 对象（即 **`{}`**）
+- 为步骤 1 新创建的对象添加属性 **`__proto__`**，将该属性链接至构造函数的原型对象
+- 将步骤 1 新创建的对象作为 **`this`** 的上下文
+- 如果该函数没有返回对象，则返回 **`this`**
+
+
+
+```js
+// new Fn(...) 做的就是类似的事情
+
+function User(name) {
+  // this = {};（隐式创建）
+
+  // 添加属性到 this
+  this.name = name;
+  this.isAdmin = false;
+
+  // return this;（隐式返回）
+}
+```
+
+
+
+```js
+function Person(name) {
+    this.name = name
+}
+
+Person.prototype.hello = function () {
+    console.log('hello')
+}
+
+Person.prototype.sayNmae = function () {
+    console.log(`My name is ${this.name}`)
+}
+
+let chuxiu = new Person('chuxiu')
+chuxiu.hello()
+// => hello
+chuxiu.sayNmae()
+// => My name is chuxiu
+console.log(chuxiu.__proto__)
+// => { bark: [Function (anonymous)], sayNmae: [Function (anonymous)] }
+
+```
+
+
+
+> 如果你没有使用 `new` 运算符，构造函数会像其他的常规函数一样被调用，并不会创建一个对象。在这种情况下， `this` 的指向也是不一样的
+
+
+
+#### # 构造器模式测试：new.target
+
+在一个函数内部，我们可以使用 `new.target` 属性来检查它是否被使用 `new` 进行调用了
+
+对于常规调用，它为 undefined，对于使用 `new` 的调用，则等于该函数
+
+
+
+```js
+function User() {
+  alert(new.target);
+}
+
+// 不带 "new"：
+User(); // undefined
+
+// 带 "new"：
+new User(); // function User { ... }
+```
+
+
+
+#### # 构造器的 return
+
+通常，构造器没有 `return` 语句。它们的任务是将所有必要的东西写入 `this`，并自动转换为结果。
+
+但是，如果这有一个 `return` 语句:
+
+- 如果 `return` 返回的是一个对象，则返回这个对象，而不是 `this`。
+- 如果 `return` 返回的是一个原始类型，则忽略
+
+
+
+```js
+function BigUser() {
+
+  this.name = "John";
+
+  return { name: "Godzilla" };  // <-- 返回这个对象
+}
+
+alert( new BigUser().name );  // Godzilla，得到了那个对象
+```
+
+
+
+```js
+function SmallUser() {
+
+  this.name = "John";
+
+  return false; // <-- 返回 this
+}
+
+alert( new SmallUser().name );  // John
+```
+
+
+
+#### # 手写new
+
+```js
+/**
+*	new
+*/
+
+function Person(name) {
+    this.name = name
+}
+
+Person.prototype.hello = function () {
+    console.log('hello')
+}
+
+Person.prototype.sayNmae = function () {
+    console.log(`My name is ${this.name}`)
+}
+
+let chuxiu = new Person('chuxiu')
+chuxiu.hello()
+// => hello
+chuxiu.sayNmae()
+// => My name is chuxiu
+console.log(chuxiu.__proto__)
+// => { bark: [Function (anonymous)], sayNmae: [Function (anonymous)] }
+
+/**
+* 手写
+*/
+function _new(Ctor, ...args) {
+    // 传入的参数不是构造函数
+    if (!Ctor.hasOwnProperty('prototype')) {
+        throw new TypeError(`${Ctor} is not a construstor`)
+    }
+    // 创建一个新的空对象并将空对象的 __proto__ 属性（隐式原型）指向构造函数的 prototype 属性（显式原型）
+    let obj = Object.create(Ctor.prototype)
+    // 将构造函数中的 this 指向此对象
+    let res = Ctor.apply(obj, args)
+    // return 一个对象或函数时
+    if ((res !== null && typeof res == 'object') || typeof res == 'function') {
+        return res
+    }
+    return obj
+}
+
+chuxiu2.bark()
+// bark
+chuxiu2.sayNmae()
+// My name is chuxiu2
+console.log(chuxiu2 instanceof Person)
+// true
+```
+
+
+
+
+
+## 2 - 可选链操作符 [ ?. ]
+
+允许读取位于连接对象链深处的属性的值，而不必明确验证链中的每个引用是否有效。
+
+- 在引用为空 ([nullish](https://developer.mozilla.org/zh-CN/docs/Glossary/Nullish) ) ([`null`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/null) 或者 [`undefined`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined)) 的情况下不会引起错误，该表达式短路返回值是 `undefined`
+- 与函数调用一起使用时，如果给定的函数不存在，则返回 `undefined`。
+
+
+
+> **Tips：**
+>
+> **不要过度使用可选链**
+>
+> - 只将 `?.` 使用在一些东西可以不存在的地方
+>
+> 
+>
+> `?.` **前的变量必须已声明**，否则会报错
+>
+>
+> **我们可以使用** `?.` **来安全地读取或删除，但不能写入**，可选链 `?.` 不能用在赋值语句的左侧
+
+
+
+#### # reference
+
+- [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+- [现代 JavaScript 教程](https://zh.javascript.info/optional-chaining)
+
+
+
+#### # 语法
+
+```js
+obj.val?.prop
+obj.val?.[expr]
+obj.func?.(args)
+```
+
+
+
+#### # 描述
+
+通过连接的对象的引用或函数可能是 `undefined` 或 `null` 时，可选链运算符提供了一种方法来简化被连接对象的值访问
+
+
+
+#### # 可选链与函数调用
+
+当尝试调用一个可能不存在的方法时也可以使用可选链
+
+```
+let result = someInterface.customMethod?.();
+```
+
+
+
+> - 如果存在一个属性名且不是函数，使用 `?.` 仍然会产生一个 [`TypeError`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError) 异常 (`x.y is not a function`)
+> - 如果 `someInterface` 自身是 `null` 或者 `undefined` ，异常 [`TypeError`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError) 仍会被抛出 `someInterface is null`
+>   - 可以写作 someInterface?.customMethod?.()
+
+
+
+
+
+# 第N章、标准内置对象
+
+## 1 - Symbol
+
+symbol 是一种基本数据类型（ <span style="color: #49bf51">primitive data type</span> ）
+
+`Symbol()` 函数会返回 **symbol** 类型的值，该类型具有静态属性和静态方法
+
+- 静态属性会暴露几个内建的成员对象
+- 静态方法会暴露全局的 symbol 注册，且类似于内建对象类
+- 作为构造函数来说它并不完整，因为它不支持语法："`new Symbol()`"
+
+
+
+每个从 `Symbol()` 返回的 symbol 值都是唯一的。一个 symbol 值能作为对象属性的标识符；这是该数据类型仅有的目的
+
+根据规范，只有两种原始类型可以用作对象属性键：
+
+- 字符串类型
+- symbol 类型
+
+
+
+> **symbol 不会被 <span style="color: #e3371e">自动</span> 转换为字符串**
+
+
+
+
+
+#### # reference
+
+- [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+- [现代 JavaScript 教程](https://zh.javascript.info/symbol)

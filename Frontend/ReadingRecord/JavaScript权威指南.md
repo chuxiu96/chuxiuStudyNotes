@@ -1754,9 +1754,153 @@ function f(x) { return x + 1; }
 
 ## 4 - 条件语句
 
+### 4.1 - if
+
+
+
+### 4.2 - else if
+
+> else if 语句并非真正的 JavaScript 语句，它是多条 if/else 语句连在一起时的一种惯用写法
+
+
+
+### 4.3 - switch
+
+```js
+switch(expression) {
+	statements
+}
+```
+
+> 当 <span style="color: #e3371e">所有分支依赖同一个表达式的值</span> 时，使用 else if，会重复计算多条 if 语句中的条件表达式，非最佳解决方案。
+>
+> switch 语句正适合处理这种情况
+
+```js
+switch (n) {
+    case 1:
+        // statement1
+        break
+    case 2:
+        // statement2
+        break
+    case 3:
+        // statement3
+        break
+    case 4:
+        // statement4
+        break
+
+    default:
+        break
+}
+```
+
+
+
+#### 执行逻辑
+
+- 计算 expression 值
+- 查找 case 子句中的表达式是否和 expression 的值相同 （"==="）
+  - 匹配到case，执行对应代码块
+  - 找不到匹配到case，执行”default:“ 标签中的代码块
+    - 没有”default:“ 标签，跳过 switch 语句的所有代码块
+
+
+
+#### 关键字 break
+
+**使解释器跳出 switch 语句或循环语句**
+
+
+
+switch语句中，case 只指明了 要执行的大妈起点，并未指明终点
+
+- 没有 break 语句
+  - switch 语句就会从与 expression 的值相匹配的 case 标签处的代码块开始执行，直到整个 switch 代码块的结尾
+  - 大多数情况，应该使用 break 语句 终止每个 case 语句块
+- 函数中使用 switch 语句
+  - 可以使用 return 来代替 break
+  - return ，和 break 都用于终止 switch 语句，防止一个 case 语句块执行完成后继续执行下一个 case 语句块
+
+
+
+#### 关键字 default
+
+最常见合理的写法
+
+- 出现在 switch 末尾，位于所有 case 标签之后
+
+实际上，”default:“ 标签可放置在 switch 语句内的任何地方
+
 
 
 ## 5 - 循环
+
+### 5.1 - while
+
+```js
+while(expression)
+	statement
+```
+
+
+
+### 5.2 - do/while
+
+```js
+do
+	statement
+while (expression)
+```
+
+
+
+### 5..3 - for
+
+```js
+for (initialize; test ; increment) {
+    statement
+}
+```
+
+> 两个 ;; 不可忽略
+>
+> initialize, test， increment 可忽略
+>
+> 省略 test表达式，将成为死循环 for(;;)
+
+**等价与** (使用 continue 语句时，while 循环和 for 循环并不等价)
+
+```js
+initialize;
+	while(test) {
+		statement
+		increment;
+	}
+```
+
+
+
+### 5.4 - for/in
+
+```js
+for (variable in object) {
+	// statement
+}
+```
+
+**variable**
+
+- 通常是一个变量名，也可是一个产生左值的表达式，或一个通过 var 语句声明的变量，总而言之，是一个适用于赋值表达式左侧的值
+
+**object**
+
+- 是一个表达式，计算结果是一个对象
+
+**statement**
+
+- 是一个语句或语句块，构成循环的主体
 
 
 
