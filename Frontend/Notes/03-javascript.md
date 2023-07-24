@@ -574,3 +574,21 @@ symbol 是一种基本数据类型（ <span style="color: #49bf51">primitive dat
 
 - [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
 - [现代 JavaScript 教程](https://zh.javascript.info/symbol)
+
+
+
+# 第N章、异常收集
+
+## 1 - html 中 import js文件
+
+```javascript
+ <script type="module">
+	import { Dom } from '../lib/dom.js'
+	let h1 = new Dom('h1')
+</script>
+```
+
+> 注意点：
+>
+> 1. `script` 标签 `type` 属性值为 `module`
+> 2. 引入的文件路径，**必须**带文件扩展名 `.js`
